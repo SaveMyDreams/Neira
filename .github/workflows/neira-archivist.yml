@@ -1,0 +1,39 @@
+name: Neira Archivist Data Backup
+run-name: 🗃️ Data backup by @${{ github.actor }} on ${{ github.ref }}
+
+on:
+  workflow_dispatch: # Запуск вручную через вкладку Actions
+  push:
+    branches: # Запуск автоматически при пуше в main
+      - main
+
+jobs:
+  archive-data:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Даем разрешение только на запись содержимого (для коммита)
+
+    steps:
+      - name: 🛎️ Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 📦 Install dependencies
+        run: pip install PyGithub
+
+      - name: 🚀 Run Archivation Script
+        run: python .github/scripts/neira_archivist.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Передаем в скрипт встроенный токен
+
+      - name: 💾 Commit and Push changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: GitHub Actions
+          author_email: actions@users.noreply.github.com
+          message: "🗃️ Automated data backup by Neira-Archivist"
+          # add: "." # Раскомментируйте и измените, если нужно коммитить не все файлы
