@@ -35,5 +35,5 @@ jobs:
         with:
           author_name: GitHub Actions
           author_email: actions@users.noreply.github.com
-          message: "🗃️ Automated data backup by Neira-Archivist"
+          message: "🗃Automated data backup by Neira-Archivist"
           # add: "." # Раскомментируйте и измените, если нужно коммитить не все файлы
